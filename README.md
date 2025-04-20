@@ -2,7 +2,7 @@
 
 [![support level: community](https://img.shields.io/badge/support%20level-community-lightgray.svg)](https://rosindustrial.org/news/2016/10/7/better-supporting-a-growing-ros-industrial-software-platform)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
-![repo size](https://img.shields.io/github/repo-size/Osaka-University-Harada-Laboratory/wros2)
+![repo size](https://img.shields.io/github/repo-size/UOsaka-Harada-Laboratory/wros2)
 
 ROS2 node examples with WRS.
 
@@ -24,7 +24,7 @@ ROS2 node examples with WRS.
 
 # Installation
 ```bash
-git clone git@github.com:Osaka-University-Harada-Laboratory/wros2.git --recursive --depth 1 && cd wros2 && COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker compose build --no-cache --parallel 
+git clone git@github.com:UOsaka-Harada-Laboratory/wros2.git --recursive --depth 1 && cd wros2 && COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker compose build --no-cache --parallel 
 ```
 
 # Usage
@@ -58,7 +58,7 @@ git clone git@github.com:Osaka-University-Harada-Laboratory/wros2.git --recursiv
         ros2 service call /plan_grasp std_srvs/srv/Empty
         ```
 
-#### Please refer to [wiki page](https://github.com/Osaka-University-Harada-Laboratory/wros2/wiki/Usage-examples) for usage examples.
+#### Please refer to [wiki page](https://github.com/UOsaka-Harada-Laboratory/wros2/wiki/Usage-examples) for usage examples.
 
 # Contributors
 
