@@ -17,10 +17,17 @@ ENV TZ=Asia/Tokyo
 
 RUN apt update -y && apt install -y --no-install-recommends \
     build-essential \
+    libgl1-mesa-glx \
     ca-certificates \
+    libglx-mesa0 \
+    libxrender1 \
     lsb-release \
     python3-pip \
     python3-tk \
+    mesa-utils \
+    x11-utils \
+    libxext6 \
+    libsm6 \
     gnupg2 \
     byobu \
     curl \
@@ -54,6 +61,7 @@ COPY requirements.txt /ros2_ws/src/wrs/
 WORKDIR /ros2_ws/src/wrs/
 RUN pip3 install setuptools==65.5.0
 RUN pip3 install --ignore-installed .
+RUN pip3 install matplotlib==3.5.3
 RUN rm -rf /ros2_ws/src/wrs/setup.py
 
 # Generate bash commands

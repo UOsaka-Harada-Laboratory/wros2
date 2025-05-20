@@ -2,7 +2,6 @@
 
 import os
 import numpy as np
-from panda3d.core import Vec3, Mat4
 from transforms3d.quaternions import mat2quat
 
 import rclpy

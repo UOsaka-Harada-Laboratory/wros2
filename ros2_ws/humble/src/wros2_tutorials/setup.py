@@ -31,7 +31,7 @@ setup(
         (os.path.join('share', package_name, 'wrs/trimesh/templates'),
          glob(os.path.join('../wrs/trimesh/templates', '*.template'))),
     ],
-    install_requires=['setuptools'],
+    install_requires=["setuptools==65.5.0"],
     zip_safe=True,
     author='Takuya Kiyokawa',
     author_email='taku8926@gmail.com',
@@ -40,12 +40,11 @@ setup(
     keywords=['ROS'],
     classifiers=[
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: BSD',
         'Programming Language :: Python',
         'Topic :: Software Development',
     ],
     description='WROS2 tutorials.',
-    license='BSD',
+    license='BSD-3-Clause',
     entry_points={
         'console_scripts': [
             'grasp_planning_service = '
