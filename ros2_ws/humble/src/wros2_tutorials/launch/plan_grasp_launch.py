@@ -11,7 +11,7 @@ def generate_launch_description():
          'grasps.rviz'])
     config = launch.actions.DeclareLaunchArgument(
         'config',
-        default_value='planning_params_robotiqhe_example.yaml')
+        default_value='planner_params_robotiqhe_single_example.yaml')
     rosparam_config = launch.substitutions.PathJoinSubstitution(
         [launch_ros.substitutions.FindPackageShare('wros2_tutorials'),
          'config',
