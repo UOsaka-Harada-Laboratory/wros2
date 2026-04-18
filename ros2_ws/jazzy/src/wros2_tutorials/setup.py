@@ -31,7 +31,7 @@ setup(
         (os.path.join('share', package_name, 'wrs/trimesh/templates'),
          glob(os.path.join('../wrs/trimesh/templates', '*.template'))),
     ],
-    install_requires=["setuptools==65.5.0"],
+    install_requires=["setuptools"],
     zip_safe=True,
     author='Takuya Kiyokawa',
     author_email='taku8926@gmail.com',

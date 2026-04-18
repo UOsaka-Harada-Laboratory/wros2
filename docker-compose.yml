@@ -1,9 +1,9 @@
 services:
-    wros2_humble_ws:
+    wros2_jazzy_ws:
         build:
             context: "docker"
             dockerfile: "Dockerfile"
-        container_name: wros2_humble_container
+        container_name: wros2_jazzy_container
         environment:
             - DISPLAY=${DISPLAY}
             - QT_X11_NO_MITSHM=1
@@ -14,8 +14,8 @@ services:
         volumes:
             - /dev:/dev
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
-            - ./ros2_ws/humble/src/wros2_tutorials:/ros2_ws/src/wros2_tutorials
+            - ./ros2_ws/jazzy/src/wros2_tutorials:/ros2_ws/src/wros2_tutorials
         privileged: true
         tty: true
         network_mode: host
-        command: bash -c "source /opt/ros/humble/setup.bash && colcon build --executor sequential && bash"
+        command: bash -c "source /opt/ros/jazzy/setup.bash && colcon build --executor sequential && bash"

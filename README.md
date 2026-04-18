@@ -6,16 +6,16 @@
 
 ROS2 node examples with WRS.
 
-- ROS Humble Hawksbill node examples with robot motion planners implemented in [WRS](https://github.com/wanweiwei07/wrs).
+- ROS Jazzy Jalisco node examples with robot motion planners implemented in [WRS](https://github.com/wanweiwei07/wrs).
 
 # Features
 
-- Docker environment for ROS Humble Hawksbill packages
+- Docker environment for ROS Jazzy Jalisco packages
 - ROS2 node examples with [grasp planners (Wan et al., IEEE TRO 2021)](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9170578)
 
 # Dependency (tested as a host machine)
 
-- [Ubuntu 22.04 PC](https://ubuntu.com/certified/laptops?q=&limit=20&vendor=Dell&vendor=Lenovo&vendor=HP&release=22.04+LTS)
+- [Ubuntu 24.04 PC](https://ubuntu.com/certified/laptops?q=&limit=20&vendor=Dell&vendor=Lenovo&vendor=HP&release=24.04+LTS)
   - NVIDIA GeForce RTX 3070
   - NVIDIA Driver 470.256.02
   - Docker 27.4.1
@@ -35,7 +35,7 @@ git clone git@github.com:UOsaka-Harada-Laboratory/wros2.git --recursive --depth 
         ```
    - Execute the container in another terminal
         ```bash
-        xhost + && docker exec -it wros2_humble_container bash
+        xhost + && docker exec -it wros2_jazzy_container bash
         ```
 2. Change planning parameters in wros2_tutorials/config/XXX.yaml 
 3. Build program files with the revised yaml

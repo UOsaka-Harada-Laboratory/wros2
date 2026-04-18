@@ -1,11 +1,11 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 # setting environmental variables
 ENV DEBIAN_FRONTEND noninteractive
 
 # Timezone and Launguage
 RUN apt update -y && apt install -y --no-install-recommends \
-    software-properties-common \        
+    software-properties-common \
     locales \
     tzdata \
     && locale-gen en_US en_US.UTF-8 \
@@ -17,7 +17,7 @@ ENV TZ=Asia/Tokyo
 
 RUN apt update -y && apt install -y --no-install-recommends \
     build-essential \
-    libgl1-mesa-glx \
+    libgl1 \
     ca-certificates \
     libglx-mesa0 \
     libxrender1 \
@@ -40,15 +40,15 @@ RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o 
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null
 
 RUN apt upgrade -y && apt update -y && apt install -y --no-install-recommends \
-    ros-humble-desktop \
-    ros-humble-tf2-tools \
-    ros-humble-tf-transformations \
+    ros-jazzy-desktop \
+    ros-jazzy-tf2-tools \
+    ros-jazzy-tf-transformations \
     python3-colcon-common-extensions \
     && rm -rf /var/lib/apt/lists/*
 
-RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc 
+RUN echo "source /opt/ros/jazzy/setup.bash" >> ~/.bashrc
 RUN echo "source /usr/share/colcon_cd/function/colcon_cd.sh" >> ~/.bashrc
-RUN echo "export _colcon_cd_root=/opt/ros/humble/" >> ~/.bashrc
+RUN echo "export _colcon_cd_root=/opt/ros/jazzy/" >> ~/.bashrc
 RUN echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" >> ~/.bashrc
 RUN echo "source /ros2_ws/install/setup.bash" >> ~/.bashrc
 RUN echo "export XDG_RUNTIME_DIR=/tmp/runtime-futa" >> ~/.bashrc
@@ -59,9 +59,7 @@ COPY setup.py /ros2_ws/src/wrs/
 COPY MANIFEST.in /ros2_ws/src/wrs/
 COPY requirements.txt /ros2_ws/src/wrs/
 WORKDIR /ros2_ws/src/wrs/
-RUN pip3 install setuptools==65.5.0
-RUN pip3 install --ignore-installed .
-RUN pip3 install matplotlib==3.5.3
+RUN pip3 install --break-system-packages --ignore-installed .
 RUN rm -rf /ros2_ws/src/wrs/setup.py
 
 # Generate bash commands
