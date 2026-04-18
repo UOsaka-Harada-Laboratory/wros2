@@ -48,9 +48,13 @@ RUN apt upgrade -y && apt update -y && apt install -y --no-install-recommends \
 
 # Remove apt-installed matplotlib so only the pip version remains
 # (avoids "Unable to import Axes3D" warning from mismatched versions).
-# Cascades a removal of ros-jazzy-{desktop,rqt-*-plugins,rqt-plot};
-# these are unused for grasp planning.
-RUN apt-get purge -y python3-matplotlib python-matplotlib-data \
+# apt-mark all currently-installed ros-jazzy-* packages as manual first,
+# otherwise the following autoremove cascades and takes out ros2cli,
+# rviz2, and other tooling that we still need.
+# Cascades a removal of ros-jazzy-rqt-{plot,*-plugins}; these are
+# unused for grasp planning.
+RUN apt-mark manual $(dpkg-query -W -f='${Package}\n' 'ros-jazzy-*' 2>/dev/null) \
+    && apt-get purge -y python3-matplotlib python-matplotlib-data \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 

@@ -65,6 +65,21 @@ git clone git@github.com:UOsaka-Harada-Laboratory/wros2.git --recursive --depth 
         ros2 service call /plan_grasp std_srvs/srv/Empty
         ```
 
+## Usage scripts
+
+Helper scripts under [utils/](utils/) start a byobu session that launches
+the grasp planner and calls the planning service for a given config. Run
+the container first (`docker compose up`), then invoke one of:
+
+```bash
+utils/run_robotiq140_single.sh
+utils/run_robotiq140_obstcl.sh
+utils/run_robotiq85_single.sh
+utils/run_robotiq85_obstcl.sh
+utils/run_robotiqhe_single.sh
+utils/run_robotiqhe_obstcl.sh
+```
+
 #### Please refer to [wiki page](https://github.com/UOsaka-Harada-Laboratory/wros2/wiki/Usage-examples) for usage examples.
 
 # Authors and Contributors
