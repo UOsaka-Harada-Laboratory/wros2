@@ -64,12 +64,12 @@ git clone git@github.com:UOsaka-Harada-Laboratory/wros2.git --recursive --depth 
 
 We always welcome collaborators!
 
-# Author
+# Authors and Contributors
 
 [Takuya Kiyokawa](https://takuya-ki.github.io/)  
-[Weiwei Wan](https://wanweiwei07.github.io/)  
-[Keisuke Koyama](https://kk-hs-sa.website/)  
+[Weiwei Wan](https://wanweiwei07.github.io/)   
 [Kensuke Harada](https://www.roboticmanipulation.org/members2/kensuke-harada/)  
+[Claude Code](https://claude.com/claude-code)  
 
 ## License
 

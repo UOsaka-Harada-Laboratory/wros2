@@ -60,6 +60,7 @@ COPY MANIFEST.in /ros2_ws/src/wrs/
 COPY requirements.txt /ros2_ws/src/wrs/
 WORKDIR /ros2_ws/src/wrs/
 RUN pip3 install --break-system-packages --ignore-installed .
+RUN pip3 install --break-system-packages 'setuptools<80'
 RUN rm -rf /ros2_ws/src/wrs/setup.py
 
 # Generate bash commands
