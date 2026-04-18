@@ -1,7 +1,7 @@
 FROM ubuntu:24.04
 
 # setting environmental variables
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Timezone and Launguage
 RUN apt update -y && apt install -y --no-install-recommends \
@@ -12,7 +12,7 @@ RUN apt update -y && apt install -y --no-install-recommends \
     && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 \
     && add-apt-repository universe
 
-ENV LANG en_US.UTF-8
+ENV LANG=en_US.UTF-8
 ENV TZ=Asia/Tokyo
 
 RUN apt update -y && apt install -y --no-install-recommends \
@@ -46,12 +46,23 @@ RUN apt upgrade -y && apt update -y && apt install -y --no-install-recommends \
     python3-colcon-common-extensions \
     && rm -rf /var/lib/apt/lists/*
 
-RUN echo "source /opt/ros/jazzy/setup.bash" >> ~/.bashrc
-RUN echo "source /usr/share/colcon_cd/function/colcon_cd.sh" >> ~/.bashrc
-RUN echo "export _colcon_cd_root=/opt/ros/jazzy/" >> ~/.bashrc
-RUN echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" >> ~/.bashrc
-RUN echo "source /ros2_ws/install/setup.bash" >> ~/.bashrc
-RUN echo "export XDG_RUNTIME_DIR=/tmp/runtime-futa" >> ~/.bashrc
+# Remove apt-installed matplotlib so only the pip version remains
+# (avoids "Unable to import Axes3D" warning from mismatched versions).
+RUN apt-get purge -y python3-matplotlib python3-matplotlib-data 2>/dev/null || true \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/*
+
+# Disable Panda3D audio (no audio device inside the container).
+RUN echo "audio-library-name null" > /etc/Config.prc
+
+RUN { \
+    echo "source /opt/ros/jazzy/setup.bash"; \
+    echo "source /usr/share/colcon_cd/function/colcon_cd.sh"; \
+    echo "export _colcon_cd_root=/opt/ros/jazzy/"; \
+    echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash"; \
+    echo "source /ros2_ws/install/setup.bash"; \
+    echo "export XDG_RUNTIME_DIR=/tmp/runtime-root"; \
+} >> ~/.bashrc
 
 COPY wrs/ /ros2_ws/src/wrs/
 RUN rm -rf /ros2_ws/src/wrs/setup.py /ros2_ws/src/wrs/MANIFEST.in /ros2_ws/src/wrs/requirements.txt
@@ -59,21 +70,24 @@ COPY setup.py /ros2_ws/src/wrs/
 COPY MANIFEST.in /ros2_ws/src/wrs/
 COPY requirements.txt /ros2_ws/src/wrs/
 WORKDIR /ros2_ws/src/wrs/
-RUN pip3 install --break-system-packages --ignore-installed .
-RUN pip3 install --break-system-packages 'setuptools<80'
+RUN echo 'setuptools<80' > /tmp/constraints.txt \
+    && pip3 install --break-system-packages --ignore-installed -c /tmp/constraints.txt . \
+    && rm /tmp/constraints.txt
 RUN rm -rf /ros2_ws/src/wrs/setup.py
 
 # Generate bash commands
 WORKDIR /ros2_ws/
-RUN echo "/usr/bin/python3 /ros2_ws/src/wrs/robot_sim/end_effectors/gripper/robotiq140/robotiq140.py" >> ~/.bash_history
-RUN echo "/usr/bin/python3 /ros2_ws/src/wrs/robot_sim/end_effectors/gripper/robotiq85/robotiq85.py" >> ~/.bash_history
-RUN echo "/usr/bin/python3 /ros2_ws/src/wrs/robot_sim/end_effectors/gripper/robotiqhe/robotiqhe.py" >> ~/.bash_history
-RUN echo "colcon build --symlink-install --executor sequential" >> ~/.bash_history
-RUN echo "ros2 launch wros2_tutorials plan_grasp_launch.py config:=planner_params_robotiq140_single_example.yaml" >> ~/.bash_history
-RUN echo "ros2 launch wros2_tutorials plan_grasp_launch.py config:=planner_params_robotiq85_single_example.yaml" >> ~/.bash_history
-RUN echo "ros2 launch wros2_tutorials plan_grasp_launch.py config:=planner_params_robotiqhe_single_example.yaml" >> ~/.bash_history
-RUN echo "ros2 launch wros2_tutorials plan_grasp_launch.py config:=planner_params_robotiq140_obstcl_example.yaml" >> ~/.bash_history
-RUN echo "ros2 launch wros2_tutorials plan_grasp_launch.py config:=planner_params_robotiq85_obstcl_example.yaml" >> ~/.bash_history
-RUN echo "ros2 launch wros2_tutorials plan_grasp_launch.py config:=planner_params_robotiqhe_obstcl_example.yaml" >> ~/.bash_history
-RUN echo "ros2 service call /plan_grasp std_srvs/srv/Empty" >> ~/.bash_history
-RUN echo "byobu" >> ~/.bash_history
+RUN { \
+    echo "/usr/bin/python3 /ros2_ws/src/wrs/robot_sim/end_effectors/gripper/robotiq140/robotiq140.py"; \
+    echo "/usr/bin/python3 /ros2_ws/src/wrs/robot_sim/end_effectors/gripper/robotiq85/robotiq85.py"; \
+    echo "/usr/bin/python3 /ros2_ws/src/wrs/robot_sim/end_effectors/gripper/robotiqhe/robotiqhe.py"; \
+    echo "colcon build --symlink-install --parallel-workers 1"; \
+    echo "ros2 launch wros2_tutorials plan_grasp_launch.py config:=planner_params_robotiq140_single_example.yaml"; \
+    echo "ros2 launch wros2_tutorials plan_grasp_launch.py config:=planner_params_robotiq85_single_example.yaml"; \
+    echo "ros2 launch wros2_tutorials plan_grasp_launch.py config:=planner_params_robotiqhe_single_example.yaml"; \
+    echo "ros2 launch wros2_tutorials plan_grasp_launch.py config:=planner_params_robotiq140_obstcl_example.yaml"; \
+    echo "ros2 launch wros2_tutorials plan_grasp_launch.py config:=planner_params_robotiq85_obstcl_example.yaml"; \
+    echo "ros2 launch wros2_tutorials plan_grasp_launch.py config:=planner_params_robotiqhe_obstcl_example.yaml"; \
+    echo "ros2 service call /plan_grasp std_srvs/srv/Empty"; \
+    echo "byobu"; \
+} >> ~/.bash_history

@@ -4,6 +4,13 @@
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 ![repo size](https://img.shields.io/github/repo-size/UOsaka-Harada-Laboratory/wros2)
 
+> **Note**
+> WRS is written against the numpy 1.x API, so this project pins `numpy<2.0`
+> ([docker/requirements.txt](docker/requirements.txt)) as a temporary workaround.
+> Code paths not exercised by the provided examples may still hit other numpy 2.x
+> incompatibilities (e.g. removed `np.product`, stricter scalar conversion).
+> Report or patch any that you encounter.
+
 ROS2 node examples with WRS.
 
 - ROS Jazzy Jalisco node examples with robot motion planners implemented in [WRS](https://github.com/wanweiwei07/wrs).
@@ -60,11 +67,9 @@ git clone git@github.com:UOsaka-Harada-Laboratory/wros2.git --recursive --depth 
 
 #### Please refer to [wiki page](https://github.com/UOsaka-Harada-Laboratory/wros2/wiki/Usage-examples) for usage examples.
 
-# Contributors
+# Authors and Contributors
 
 We always welcome collaborators!
-
-# Authors and Contributors
 
 [Takuya Kiyokawa](https://takuya-ki.github.io/)  
 [Weiwei Wan](https://wanweiwei07.github.io/)   
